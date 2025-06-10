@@ -1,0 +1,10 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.splitizy.splitizy.sand",
+            "sha256_cert_fingerprints": ["ca:54:ae:1a:2d:28:6d:ef:cb:68:a0:91:8d:f0:18:67:47:b4:ce:fa:f3:e1:52:d9:d4:79:d9:1f:d9:76:7c:89"]
+        }
+    }
+]
