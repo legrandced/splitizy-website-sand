@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #005291 0%, #EE7116 100%);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
@@ -34,9 +34,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            font-weight: bold;
-            color: #667eea;
+            padding: 10px;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         h1 {
             margin: 20px 0;
@@ -52,8 +55,7 @@
         .buttons {
             margin-top: 30px;
             display: flex;
-            gap: 15px;
-            flex-direction: column;
+            justify-content: center;
         }
         .btn {
             padding: 15px 25px;
@@ -68,7 +70,7 @@
         }
         .btn-primary {
             background: white;
-            color: #667eea;
+            color: #005291;
         }
         .btn-primary:hover {
             transform: translateY(-2px);
@@ -92,24 +94,20 @@
             display: inline-block;
             margin-bottom: 15px;
         }
-        @media (min-width: 600px) {
-            .buttons {
-                flex-direction: row;
-                justify-content: center;
-            }
-        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">S</div>
-        <div class="env-badge">🧪 SANDBOX</div>
+        <div class="logo">
+            <img src="logo.png" alt="Splitizy Logo">
+        </div>
+        <div class="env-badge">SANDBOX</div>
         <h1>Rejoindre un groupe Splitizy</h1>
-        <p id="message">Vous avez été invité à rejoindre un groupe ! Téléchargez l'application pour continuer.</p>
+        <p id="message">Vous avez été invité à rejoindre un groupe ! L'application va s'ouvrir automatiquement...</p>
         
         <div class="buttons">
             <a href="#" id="openApp" class="btn btn-primary">Ouvrir l'application</a>
-            <a href="https://play.google.com/store/apps/details?id=com.splitizy.splitizy.sand" class="btn btn-secondary">Télécharger l'app</a>
         </div>
         
         <p style="margin-top: 30px; font-size: 14px; opacity: 0.7;">
@@ -136,20 +134,23 @@
             iframe.src = appLink;
             document.body.appendChild(iframe);
             
-            // Fallback : rediriger vers le store après 2 secondes si l'app ne s'ouvre pas
+            // Fallback : rediriger vers le store après 3 secondes si l'app ne s'ouvre pas
             setTimeout(() => {
                 // Détecter la plateforme
                 const isAndroid = /Android/i.test(navigator.userAgent);
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
                 
                 if (isAndroid) {
-                    // Rediriger vers Google Play Store ou APK
+                    // Rediriger vers Google Play Store
                     window.location.href = 'https://play.google.com/store/apps/details?id=com.splitizy.splitizy.sand';
                 } else if (isIOS) {
                     // Rediriger vers App Store ou TestFlight
                     window.location.href = 'https://testflight.apple.com/join/YOUR_TESTFLIGHT_LINK';
+                } else {
+                    // Pour desktop, afficher un message
+                    document.getElementById('message').textContent = 'Veuillez télécharger l\'application Splitizy sur votre téléphone pour rejoindre le groupe.';
                 }
-            }, 2000);
+            }, 3000);
         } else {
             document.getElementById('message').textContent = 'Lien invalide. Veuillez vérifier le lien de groupe reçu.';
             document.getElementById('openApp').style.display = 'none';
