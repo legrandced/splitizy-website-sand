@@ -109,7 +109,7 @@
         
         <div class="buttons">
             <a href="#" id="openApp" class="btn btn-primary">Ouvrir l'application</a>
-            <a href="https://github.com/your-repo/splitizy" class="btn btn-secondary">Télécharger l'app</a>
+            <a href="https://play.google.com/store/apps/details?id=com.splitizy.splitizy.sand" class="btn btn-secondary">Télécharger l'app</a>
         </div>
         
         <p style="margin-top: 30px; font-size: 14px; opacity: 0.7;">
@@ -127,7 +127,7 @@
             document.getElementById('groupLink').textContent = window.location.href;
             
             // Créer le lien pour ouvrir l'app directement
-            const appLink = `splitizy://group/${groupId}`;
+            const appLink = `https://sand.splitizy.com/group/${groupId}`;
             document.getElementById('openApp').href = appLink;
             
             // Essayer d'ouvrir automatiquement l'app (si installée)
