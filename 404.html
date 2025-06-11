@@ -100,11 +100,11 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="logo.png" alt="Splitizy Logo">
+            <img src="/assets/logo.png" alt="Splitizy Logo">
         </div>
         <div class="env-badge">SANDBOX</div>
         <h1>Rejoindre un groupe Splitizy</h1>
-        <p id="message">Vous avez été invité à rejoindre un groupe ! L'application va s'ouvrir automatiquement...</p>
+        <p id="message">Vous avez été invité à rejoindre un groupe ! Ouverture de l'application en cours...</p>
         
         <div class="buttons">
             <a href="#" id="openApp" class="btn btn-primary">Ouvrir l'application</a>
@@ -124,33 +124,36 @@
         if (groupId) {
             document.getElementById('groupLink').textContent = window.location.href;
             
-            // Créer le lien pour ouvrir l'app directement
-            const appLink = `splitizy-sand://group/${groupId}`;
+            // Détecter la plateforme
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            
+            // Créer le lien selon la plateforme
+            let appLink;
+            if (isIOS) {
+                // Pour iOS TestFlight - scheme configuré dans Info.plist
+                appLink = `splitizy://group/${groupId}`;
+            } else if (isAndroid) {
+                // Pour Android
+                appLink = `splitizy-sand://group/${groupId}`;
+            } else {
+                // Fallback pour desktop
+                appLink = `https://sand.splitizy.com/group/${groupId}`;
+            }
+            
             document.getElementById('openApp').href = appLink;
             
             // Essayer d'ouvrir automatiquement l'app (si installée)
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = appLink;
-            document.body.appendChild(iframe);
+            // Méthode 1: Redirection directe (plus fiable)
+            window.location.href = appLink;
             
-            // Fallback : rediriger vers le store après 3 secondes si l'app ne s'ouvre pas
+            // Méthode 2: Iframe en fallback
             setTimeout(() => {
-                // Détecter la plateforme
-                const isAndroid = /Android/i.test(navigator.userAgent);
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-                
-                if (isAndroid) {
-                    // Rediriger vers Google Play Store
-                    window.location.href = 'https://play.google.com/store/apps/details?id=com.splitizy.splitizy.sand';
-                } else if (isIOS) {
-                    // Rediriger vers App Store ou TestFlight
-                    window.location.href = 'https://testflight.apple.com/join/YOUR_TESTFLIGHT_LINK';
-                } else {
-                    // Pour desktop, afficher un message
-                    document.getElementById('message').textContent = 'Veuillez télécharger l\'application Splitizy sur votre téléphone pour rejoindre le groupe.';
-                }
-            }, 3000);
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = appLink;
+                document.body.appendChild(iframe);
+            }, 100);
         } else {
             document.getElementById('message').textContent = 'Lien invalide. Veuillez vérifier le lien de groupe reçu.';
             document.getElementById('openApp').style.display = 'none';
